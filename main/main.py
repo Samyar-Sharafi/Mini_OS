@@ -8,8 +8,8 @@ def starter ():
     print("""
 ┏━┓┏━┓ ┏━━┓ ┏━┓︱┏┓ ┏━━┓           ┏━━━┓ ┏━━━┓
 ┃┃┗┛┃┃ ┗┫┣┛ ┃┃┗┓┃┃ ┗┫┣┛           ┃┏━┓┃ ┃┏━┓┃
-┃┏┓┏┓┃ ︱┃┃︱ ┃┏┓┗┛┃ ︱┃┃︱        ┃︱┃┃ ┃┗━━┓
-┃┃┃┃┃┃ ︱┃┃︱ ┃┃┗┓┃┃ ︱┃┃︱        ┃┃︱┃┃ ┗━━┓┃
+┃┏┓┏┓┃  ┃┃  ┃┏┓┗┛┃ ︱┃┃︱          ┃︱┃┃ ┃┗━━┓
+┃┃┃┃┃┃  ┃┃  ┃┃┗┓┃┃ ︱┃┃︱          ┃┃︱┃┃ ┗━━┓┃
 ┃┃┃┃┃┃ ┏┫┣┓ ┃┃︱┃┃┃ ┏┫┣┓           ┃┗━┛┃ ┃┗━┛┃
 ┗┛┗┛┗┛ ┗━━┛ ┗┛︱┗━┛ ┗━━┛           ┗━━━┛ ┗━━━┛
 """)
@@ -17,7 +17,7 @@ def starter ():
     for i in tqdm(range(100), desc="BOOTING"):
         time.sleep(r.uniform(0.000000000000000000001, 0.10000000000000000000))
     try:
-            os.system("python C:/Users/DELL/Documents/Python/WorkSpace/projects/Mini_OS/main/kernel.py")
+            os.system("python ./kernel.py")
     except Exception as e:
             print("ERROR FOUND: ")
             print(f"{e}")

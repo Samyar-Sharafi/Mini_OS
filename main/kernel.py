@@ -229,7 +229,7 @@ def neofetch():
        ````^^^^  ^^MMMMMMMMMMMMMMMMM
                       ````^^^^^^MMMM  
     [/bold blue]""")
-    rich_print(f"[bold green]User:[/bold green] test",)
+    rich_print(f"[bold green]User:[/bold green] {username}",)
     rich_print(f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}")
     rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
     rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
@@ -441,6 +441,5 @@ if __name__ == "__main__":
     success, username = login()
     if success:
         system("runas /noprofile /user:Administrator cmd")
-        time.sleep(1)
         system("cls")
         main()
