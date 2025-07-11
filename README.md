@@ -13,10 +13,11 @@ with this format:
 (the code)
 #---func_name---end#
 
+
 in the main() function:
 #---app_name---#
 if user_input == "{file command}":
     {call the function}
 #---app_name---<end>#
 
-IF possible, use "rich" anywhere you edit.
+IF possible, use "rich" anywhere you print.
