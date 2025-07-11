@@ -440,4 +440,7 @@ Use "fileM" to manage files (create or delete).
 if __name__ == "__main__":
     success, username = login()
     if success:
+        system("runas /noprofile /user:Administrator cmd")
+        time.sleep(1)
+        system("cls")
         main()
