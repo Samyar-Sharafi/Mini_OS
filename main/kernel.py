@@ -233,7 +233,7 @@ def neofetch():
     rich_print(f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}")
     rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
     rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
-    rich_print(f"[bold green]Python:[/bold green] {platform.python_version()}")
+    rich_print(f"[bold green]PEV(Python Enviorment Version):[/bold green] {platform.python_version()}")
     rich_print(f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     # Disk usage
     total, used, free = shutil.disk_usage('.')
