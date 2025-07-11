@@ -13,7 +13,6 @@ with this format:
 (the code)
 #---func_name---end#
 
-
 in the main() function:
 #---app_name---#
 if user_input == "{file command}":
