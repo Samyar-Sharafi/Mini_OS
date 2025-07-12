@@ -95,9 +95,8 @@ def login():
 # ---login---<code--->end#
 
 #---logout---<code>#
-def logout():
-    login()
-
+# def logout():
+#     login()
 # ---logout---end#
 
 # ---fileM---<code>#
@@ -207,7 +206,7 @@ def Isearch_search():
 
 
 
-#---NeoFecth---<code>#
+#---NeoFetch---<code>#
 def neofetch():
     rich_print("""
     [bold blue]
@@ -233,7 +232,7 @@ def neofetch():
     rich_print(f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}")
     rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
     rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
-    rich_print(f"[bold green]PEV(Python Enviorment Version):[/bold green] {platform.python_version()}")
+    rich_print(f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}")
     rich_print(f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     # Disk usage
     total, used, free = shutil.disk_usage('.')
@@ -246,6 +245,22 @@ def neofetch():
     hours, remainder = divmod(uptime_seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     rich_print(f"[bold green]Uptime:[/bold green] {hours}h {minutes}m {seconds}s")
+
+
+#---PEV---<code>#
+def PEV():
+    while True:
+                console.print("[#FFA500]P[/#FFA500]",end="")
+                console.print("[blue]E[/blue]",end="")
+                console.print("[#FFA500]V[/#FFA500]",end="")
+                console.print("[magenta]>>>[/magenta]",end="")
+                
+                Python_input = input()
+                if Python_input == "py_exit":
+                    break
+                system(Python_input)
+   
+#---PEV---<code--->end#
 
 
 def main():
@@ -378,6 +393,13 @@ def main():
         if user_input == "clear":
             system("cls" if os_name == "nt" else "clear")
         # ---clear console---<end>#
+
+
+        #---PEV---#
+        if user_input ==  "PEV":
+            rich_print(f"[magenta]{platform.python_version()}[/magenta]")
+            PEV()
+        #---PEV---#
 
         # ---help---#
         if user_input == "help":
