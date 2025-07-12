@@ -352,6 +352,12 @@ def main():
             PE()
         # ---PEV---#
 
+        #---scoop---#
+        if "scoop" in user_input:
+            system(f"{user_input}")
+        #---scoop---#
+
+
         # ---help---#
         if user_input == "help":
             rich_print(
