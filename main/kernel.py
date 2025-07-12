@@ -25,17 +25,21 @@ IF possible, use "rich" anywhere you edit.
 
 """
 
+__version__ = "1.0.0"
+
+__author__ =  "Samyar-Sharafi"
 
 import time
 from os import name as os_name, path, system, remove
-import subprocess # <--for File management
+import subprocess  # <--for File management
 import getpass  # <-- for hidden password input
-from rich import print as rich_print  # <-- Use rich_print for colored output
-from rich.console import Console  # <-- Use rich_print for colored output too
+from datetime import datetime
 import platform
 import shutil
+from rich import print as rich_print  # <-- Use rich_print for colored output
+from rich.console import Console  # <-- Use rich_print for colored output too
 import psutil
-from datetime import datetime
+
 console = Console()
 
 # ---login---<code>#
@@ -48,7 +52,11 @@ def login():
     try:
         with open("user.txt", "r", encoding="utf-8") as f:
             lines = f.readlines()
-            Name = lines[0].strip() if len(lines) > 0 else "default(PASSWORD IS EMPTY STRING)"
+            Name = (
+                lines[0].strip()
+                if len(lines) > 0
+                else "default(PASSWORD IS EMPTY STRING)"
+            )
             Password = lines[1].strip() if len(lines) > 1 else ""
     except FileNotFoundError:
         Name, Password = "default(PASSWORD IS EMPTY STRING)", ""
@@ -94,10 +102,11 @@ def login():
 
 # ---login---<code--->end#
 
-#---logout---<code>#
+# ---logout---<code>#
 # def logout():
 #     login()
 # ---logout---end#
+
 
 # ---fileM---<code>#
 def create_file():
@@ -115,12 +124,14 @@ def create_file():
     else:
         full_path = str(filename)
     if os_name == "nt":
-        cmd = f"type nul > \"{full_path}\""
+        cmd = f'type nul > "{full_path}"'
     else:
-        cmd = f"touch \"{full_path}\""
+        cmd = f'touch "{full_path}"'
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     if result.returncode == 0:
-        rich_print(f"[green]File \"{full_path}\" created successfully via subprocess.[/green]")
+        rich_print(
+            f'[green]File "{full_path}" created successfully via subprocess.[/green]'
+        )
     else:
         rich_print(f"[red]Subprocess error: {result.stderr}[/red]")
 
@@ -133,8 +144,7 @@ def delete_file():
     removing_file = input()
     try:
         remove(removing_file)
-        rich_print(
-            f"[green]File \"{removing_file}\" deleted successfully.[/green]")
+        rich_print(f'[green]File "{removing_file}" deleted successfully.[/green]')
     except Exception as e:
         rich_print(f"[red]Error deleting file: {e}[/red]")
 
@@ -142,32 +152,6 @@ def delete_file():
 # ---fileM---<code--->end#
 
 
-# ---Math---<code>#
-def add(first_value: int, second_value: int) -> int:
-    """Add two integers."""
-    return first_value + second_value
-
-
-def subtract(first_value: int, second_value: int) -> int:
-    """Subtract two integers."""
-    return first_value - second_value
-
-
-def multiply(first_value: int, second_value: int) -> int:
-    """Multiply two integers."""
-    return first_value * second_value
-
-
-def divide(first_value: int, second_value: int) -> float | None:
-    """Divide two integers. Returns None on ZeroDivisionError."""
-    try:
-        return first_value / second_value
-    except ZeroDivisionError:
-        print("Error: Division by zero is not allowed.")
-        return None
-
-
-# ---Math---<code--->end#
 
 
 # ---Isearch---<code>#
@@ -190,7 +174,7 @@ def Isearch_search():
     results = []
     for result in soup.find_all("a", class_="result__a", limit=10):
         title = result.get_text(strip=True)
-        link = result.get("href") # type: ignore
+        link = result.get("href")  # type: ignore
         if title and link:
             results.append((title, link))
     if not results:
@@ -202,13 +186,15 @@ def Isearch_search():
         rich_print(f"[bold green]{title}[/bold green]")
         rich_print(f"[blue]{link}[/blue]\n")
         print("\n" * 2)
+
+
 # ---Isearch---<code--->
 
 
-
-#---NeoFetch---<code>#
+# ---NeoFetch---<code>#
 def neofetch():
-    rich_print("""
+    rich_print(
+        """
     [bold blue]
                    .oodMMMMMMMMMMMMM
        ..oodMMM  MMMMMMMMMMMMMMMMMMM
@@ -227,19 +213,30 @@ def neofetch():
  `^^^^^^MMMMMMM  MMMMMMMMMMMMMMMMMMM
        ````^^^^  ^^MMMMMMMMMMMMMMMMM
                       ````^^^^^^MMMM  
-    [/bold blue]""")
-    rich_print(f"[bold green]User:[/bold green] {username}",)
+    [/bold blue]"""
+    )
+    rich_print(
+        f"[bold green]User:[/bold green] {username}",
+    )
     rich_print(f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}")
     rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
     rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
-    rich_print(f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}")
-    rich_print(f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    rich_print(
+        f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}"
+    )
+    rich_print(
+        f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    )
     # Disk usage
-    total, used, free = shutil.disk_usage('.')
-    rich_print(f"[bold green]Disk:[/bold green] {used // (2**20)}MB / {total // (2**20)}MB used")
+    total, used, free = shutil.disk_usage(".")
+    rich_print(
+        f"[bold green]Disk:[/bold green] {used // (2**20)}MB / {total // (2**20)}MB used"
+    )
     # Memory usage
     mem = psutil.virtual_memory()
-    rich_print(f"[bold green]RAM:[/bold green] {mem.used // (2**20)}MB / {mem.total // (2**20)}MB used")
+    rich_print(
+        f"[bold green]RAM:[/bold green] {mem.used // (2**20)}MB / {mem.total // (2**20)}MB used"
+    )
     # Uptime
     uptime_seconds = int(time.time() - psutil.boot_time())
     hours, remainder = divmod(uptime_seconds, 3600)
@@ -247,81 +244,37 @@ def neofetch():
     rich_print(f"[bold green]Uptime:[/bold green] {hours}h {minutes}m {seconds}s")
 
 
-#---PEV---<code>#
-def PEV():
+# ---PEV---<code>#
+def PE():
     while True:
-                console.print("[#FFA500]P[/#FFA500]",end="")
-                console.print("[blue]E[/blue]",end="")
-                console.print("[#FFA500]V[/#FFA500]",end="")
-                console.print("[magenta]>>>[/magenta]",end="")
-                
-                Python_input = input()
-                if Python_input == "py_exit":
-                    break
-                system(Python_input)
-   
-#---PEV---<code--->end#
+        console.print("[#FFA500]P[/#FFA500]", end="")
+        console.print("[blue]E[/blue]", end="")
+        system("python")
+
+
+# ---PEV---<code--->end#
 
 
 def main():
-    
+
     # Get username from login
     global Name
     while True:
         prompt = (
             f"[bold green]{Name}[/bold green]---> [yellow]{time.strftime("%Y-%m-%d")}[/yellow] , "
-            f"[cyan]{time.strftime("%H:%M:%S")}[/cyan]\n[magenta]>>> [/magenta]")
+            f"[cyan]{time.strftime("%H:%M:%S")}[/cyan]\n[magenta]>>> [/magenta]"
+        )
         console.print(prompt, end="")
         user_input = input()
 
-    # ---neofetch---#
+        # ---neofetch--- #
         if user_input == "neofetch":
-              neofetch()
-            
+            neofetch()
+        # ---neofetch---end #
+
         # ---calculator app---#
         if user_input == "cal":
-            console.print(
-                "[magenta]What do you want to do? (e.g., 5 + 3, or 5+3)[/magenta]",
-                end="",
-            )
-            user_input_math = input()
-            user_input_math_no_spaces = user_input_math.replace(" ", "")
-            operator_found = False
-            for operator_char in ["+", "-", "*", "/"]:
-                if operator_char in user_input_math_no_spaces:
-                    parts = user_input_math_no_spaces.split(operator_char)
-                    if len(parts) == 2:
-                        try:
-                            num1 = int(parts[0])
-                            num2 = int(parts[1])
-                            operator = operator_char
-                            operator_found = True
-                            result = None
-                            if operator == "+":
-                                result = add(num1, num2)
-                            elif operator == "-":
-                                result = subtract(num1, num2)
-                            elif operator == "*":
-                                result = multiply(num1, num2)
-                            elif operator == "/":
-                                result = divide(num1, num2)
-                            if result is not None:
-                                print(f"Result: {result}")
-                            break
-                        except ValueError:
-                            print("Error: Invalid input. Please enter numbers.")
-                            operator_found = True
-                            break
-                else:
-                    print(
-                        "Error: Invalid input format. Please ensure only one operator is used."
-                    )
-                    operator_found = True
-                    break
-            if not operator_found:
-                print(
-                    "Error: Invalid operator or format. Please use +, -, *, or / (e.g., 5+3)."
-                )
+            system("python ./Calculator/Calculator.py")
         # ---calculator app---<end>#
 
         # ---file management app---#
@@ -360,8 +313,7 @@ def main():
             rich_print(f"[green]Username changed to: {Name}[/green]")
         # ---user rename---<end>
 
-
-        #---password change---#
+        # ---password change---#
         if user_input == "password change":
             new_password = input("Enter new password: ")
             # ---save user info after password change---#
@@ -394,12 +346,11 @@ def main():
             system("cls" if os_name == "nt" else "clear")
         # ---clear console---<end>#
 
-
-        #---PEV---#
-        if user_input ==  "PEV":
+        # ---PEV---#
+        if user_input == "PE":
             rich_print(f"[magenta]{platform.python_version()}[/magenta]")
-            PEV()
-        #---PEV---#
+            PE()
+        # ---PEV---#
 
         # ---help---#
         if user_input == "help":
@@ -427,11 +378,14 @@ cmd___________________________________________________________.____________.____
                                                               |            |     |
 opens the command line interface. [golden]|[/golden] Windows<-"            |     |
                                                                            |     |
-opens the MacOS terminal. [golden]|[/golden] MacOS<----------------"     |
+opens the MacOS terminal. [golden]|[/golden] MacOS<------------------------"     |
                                                                                  |
 opens the linux terminal. [golden]|[/golden] Linux<------------------------------"
 
 
+PE: a Python Environment so you could run everything in there, more like linux
+
+neofetch: Show PC info
 
 clear: clears the console
 
