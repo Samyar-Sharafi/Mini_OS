@@ -248,7 +248,7 @@ def neofetch():
 def PE():
     while True:
         console.print("[#FFA500]P[/#FFA500]", end="")
-        console.print("[blue]E[/blue]", end="")
+        console.print("[#0000FF]E[/#0000FF]", end="")
         system("python")
 
 
