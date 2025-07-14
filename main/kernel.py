@@ -3,7 +3,7 @@ author: Samyar-Sharafi
 
 this is an Mini os that, you know, acts like the linux
 terminal and have many features like
-file manger, math, cmd, google search(or duckduckgo tbh)
+file manger, math, terminal, google search(or duckduckgo tbh)
 
 IF any features were added, please add it to the help code.(line 233)
 
@@ -25,22 +25,24 @@ IF possible, use "rich" anywhere you edit.
 
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.3"
 
-__author__ =  "Samyar-Sharafi"
+__author__ = "Samyar-Sharafi"
 
 import time
 from os import name as os_name, path, system, remove
 import subprocess  # <--for File management
 import getpass  # <-- for hidden password input
-from datetime import datetime
-import platform
-import shutil
+from datetime import datetime  # <-- for time
+import platform  # <-- for versions
+import shutil  # <-- Utility functions for copying and archiving files and directory trees.
+import requests
+from bs4 import BeautifulSoup
 from rich import print as rich_print  # <-- Use rich_print for colored output
 from rich.console import Console  # <-- Use rich_print for colored output too
-import psutil
+import psutil  # <-- for system information
 
-console = Console()
+console = Console()  # <-- for cmd/terminal console
 
 # ---login---<code>#
 
@@ -124,10 +126,10 @@ def create_file():
     else:
         full_path = str(filename)
     if os_name == "nt":
-        cmd = f'type nul > "{full_path}"'
+        terminalminal = f'type nul > "{full_path}"'
     else:
-        cmd = f'touch "{full_path}"'
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        terminal = f'touch "{full_path}"'
+    result = subprocess.run(terminal, shell=True, capture_output=True, text=True)
     if result.returncode == 0:
         rich_print(
             f'[green]File "{full_path}" created successfully via subprocess.[/green]'
@@ -152,12 +154,8 @@ def delete_file():
 # ---fileM---<code--->end#
 
 
-
-
 # ---Isearch---<code>#
 def Isearch_search():
-    import requests
-    from bs4 import BeautifulSoup
 
     rich_print("[bold magenta]search the internet![/bold magenta]")
     query = input(">>> ")
@@ -193,63 +191,83 @@ def Isearch_search():
 
 # ---NeoFetch---<code>#
 def neofetch():
-    rich_print(
-        """
-    [bold blue]
-                   .oodMMMMMMMMMMMMM
-       ..oodMMM  MMMMMMMMMMMMMMMMMMM
- oodMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- 
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM
- `^^^^^^MMMMMMM  MMMMMMMMMMMMMMMMMMM
-       ````^^^^  ^^MMMMMMMMMMMMMMMMM
-                      ````^^^^^^MMMM  
-    [/bold blue]"""
-    )
-    rich_print(
-        f"[bold green]User:[/bold green] {username}",
-    )
-    rich_print(f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}")
-    rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
-    rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
-    rich_print(
-        f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}"
-    )
-    rich_print(
-        f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-    )
-    # Disk usage
-    total, used, free = shutil.disk_usage(".")
-    rich_print(
-        f"[bold green]Disk:[/bold green] {used // (2**20)}MB / {total // (2**20)}MB used"
-    )
-    # Memory usage
-    mem = psutil.virtual_memory()
-    rich_print(
-        f"[bold green]RAM:[/bold green] {mem.used // (2**20)}MB / {mem.total // (2**20)}MB used"
-    )
-    # Uptime
-    uptime_seconds = int(time.time() - psutil.boot_time())
-    hours, remainder = divmod(uptime_seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    rich_print(f"[bold green]Uptime:[/bold green] {hours}h {minutes}m {seconds}s")
+    if "Windows" in platform.system():
+        ASCII = open("./assets/ASCII/windows.txt", "r")
+        windows = ASCII.read()
+        rich_print(f"[bold blue]{windows}[/bold blue]")
+        rich_print(
+            f"[bold green]User:[/bold green] {username}",
+        )
+        rich_print(
+            f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}"
+        )
+        rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
+        rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
+        rich_print(
+            f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}"
+        )
+        rich_print(f"[bold blue]Kernel version: {__version__}[/bold blue]")
+        rich_print(
+            f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        )
+        # Disk usage
+        total, used, free = shutil.disk_usage(".")
+        rich_print(
+            f"[bold green]Disk:[/bold green] {used // (2**20)}MB / {total // (2**20)}MB used"
+        )
+        # Memory usage
+        mem = psutil.virtual_memory()
+        rich_print(
+            f"[bold green]RAM:[/bold green] {mem.used // (2**20)}MB / {mem.total // (2**20)}MB used"
+        )
+        # Uptime
+        uptime_seconds = int(time.time() - psutil.boot_time())
+        hours, remainder = divmod(uptime_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        rich_print(f"[bold green]Uptime:[/bold green] {hours}h {minutes}m {seconds}s")
+
+    if not "Windows" in platform.system():
+        ASCII = open("./assets/ASCII/tux.txt", "r")
+        tux = ASCII.read()
+        rich_print(tux)
+        rich_print(
+            f"[bold green]User:[/bold green] {username}",
+        )
+        rich_print(
+            f"[bold green]OS:[/bold green] {platform.system()} {platform.release()}"
+        )
+        rich_print(f"[bold green]Machine:[/bold green] {platform.machine()}")
+        rich_print(f"[bold green]Processor:[/bold green] {platform.processor()}")
+        rich_print(
+            f"[bold green]PEV(Python Environment Version):[/bold green] {platform.python_version()}"
+        )
+        rich_print(f"[bold blue]Kernel version: {__version__}[/bold blue]")
+        rich_print(
+            f"[bold green]Time:[/bold green] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+        )
+        # Disk usage
+        total, used, free = shutil.disk_usage(".")
+        rich_print(
+            f"[bold green]Disk:[/bold green] {used // (2**20)}MB / {total // (2**20)}MB used"
+        )
+        # Memory usage
+        mem = psutil.virtual_memory()
+        rich_print(
+            f"[bold green]RAM:[/bold green] {mem.used // (2**20)}MB / {mem.total // (2**20)}MB used"
+        )
+        # Uptime
+        uptime_seconds = int(time.time() - psutil.boot_time())
+        hours, remainder = divmod(uptime_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        rich_print(f"[bold green]Uptime:[/bold green] {hours}h {minutes}m {seconds}s")
 
 
 # ---PEV---<code>#
 def PE():
-    while True:
-        console.print("[#FFA500]P[/#FFA500]", end="")
-        console.print("[#0000FF]E[/#0000FF]", end="")
-        system("python")
+
+    console.print("[#FFA500]P[/#FFA500]", end="")
+    console.print("[#0000FF]E-[/#0000FF]", end="")
+    system("python")
 
 
 # ---PEV---<code--->end#
@@ -266,6 +284,7 @@ def main():
         )
         console.print(prompt, end="")
         user_input = input()
+        user_input = user_input.lower
 
         # ---neofetch--- #
         if user_input == "neofetch":
@@ -278,9 +297,9 @@ def main():
         # ---calculator app---<end>#
 
         # ---file management app---#
-        if user_input == "fileM":
+        if user_input == "filem":
             console.print(
-                "[magenta]What do you want to do with files? (create, delete, etc.)>>>[/magenta]",
+                "[magenta]What do you want to do with files? (create, delete, etc.)>>> [/magenta]",
                 end="",
             )
             file_user_input = input()
@@ -293,7 +312,7 @@ def main():
         # ---file management app---<end>#
 
         # ---Isearch---#
-        if user_input == "Isearch":
+        if user_input == "isearch":
             Isearch_search()
         # ---Isearch---<end>#
 
@@ -330,16 +349,16 @@ def main():
             rich_print("[green]Password changed successfully.[/green]")
         # ---password change---end#
 
-        # ---cmd mode---#
-        if user_input == "cmd":
-            # Enter a sub-loop for cmd mode
+        # ---terminal mode---#
+        if user_input == "terminal":
+            # Enter a sub-loop for terminal mode
             while True:
-                console.print("[magenta]cmd>>> [/magenta]", end="")
-                cmd_input = input()
-                if cmd_input == "cmd_exit":
+                console.print("[magenta]Terminal >>> [/magenta]", end="")
+                terminal_input = input()
+                if terminal_input == "terminal_exit":
                     break
-                system(cmd_input)
-        # ---cmd mode---<end>#
+                system(terminal_input)
+        # ---terminal mode---<end>#
 
         # ---clear console---#
         if user_input == "clear":
@@ -347,16 +366,22 @@ def main():
         # ---clear console---<end>#
 
         # ---PEV---#
-        if user_input == "PE":
-            rich_print(f"[magenta]{platform.python_version()}[/magenta]")
+        if user_input == "pe":
             PE()
         # ---PEV---#
 
-        #---scoop---#
+        # ---scoop---#
         if "scoop" in user_input:
             system(f"{user_input}")
-        #---scoop---#
+        # ---scoop---#
 
+        # ---Git Bash---#
+        if user_input == "bash":
+            ASCII = open("./assets/ASCII/Octodex.txt", "r")
+            Octodex = ASCII.read()
+            print(Octodex)
+            system("bash")
+        # ---Git Bash---#
 
         # ---help---#
         if user_input == "help":
@@ -380,7 +405,7 @@ Isearch: opens the Isearch app___________________.
                                                  |
 search:  searches for files using user input.<---"
 
-cmd___________________________________________________________.____________.______
+terminal___________________________________________________________.____________.______
                                                               |            |     |
 opens the command line interface. [golden]|[/golden] Windows<-"            |     |
                                                                            |     |
@@ -393,14 +418,14 @@ PE: a Python Environment so you could run everything in there, more like linux
 
 neofetch: Show PC info
 
+bash: opens 'git bash'
+
 clear: clears the console
 
 help: shows this help message
 
 exit: exits the console
 
-You can use the calculator by typing "cal" and then entering expressions like 5+3, 10-2, 4*7, or 8/2.
-Use "fileM" to manage files (create or delete).
 
 [/blue]"""
             )
